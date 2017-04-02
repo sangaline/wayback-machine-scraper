@@ -70,7 +70,7 @@ class WaybackMachine:
             snapshot_requests = self.build_snapshot_requests(response, meta)
 
             # treat empty listings as 404s
-            if len(snapshot_requests) < 2:
+            if len(snapshot_requests) < 1:
                 return Response(meta['original_request'].url, status=404)
 
 
