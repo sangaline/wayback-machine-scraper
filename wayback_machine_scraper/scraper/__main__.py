@@ -32,7 +32,8 @@ def parse_args():
         'within a specified time range.'
     ))
     parser.add_argument('domains', metavar='DOMAIN', nargs='+', help=(
-        'Specify the domain(s) to scrape.'
+        'Specify the domain(s) to scrape. '
+        'Can also be a full URL to specify starting points for the crawler.'
     ))
 
     return parser.parse_args()
