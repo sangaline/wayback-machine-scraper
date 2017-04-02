@@ -1,4 +1,6 @@
+import json
 from datetime import datetime
+from urllib.request import pathname2url
 
 from scrapy import Request
 from scrapy.http import Response
@@ -84,3 +86,99 @@ class WaybackMachine:
             return response.replace(url=meta['original_request'].url)
 
         return response
+
+    def build_cdx_request(self, request):
+        cdx_url = self.cdx_url_template.format(url=pathname2url(request.url))
+        cdx_request = Request(cdx_url)
+        cdx_request.meta['original_request'] = request
+        cdx_request.meta['wayback_machine_cdx_request'] = True
+        return cdx_request
+
+    def build_snapshot_requests(self, response, meta):
+        assert meta.get('wayback_machine_cdx_request'), 'Not a CDX request meta.'
+
+        # parse the CDX snapshot data
+        try:
+            data = json.loads(response.text)
+        except json.decoder.JSONDecodeError:
+            # forbidden by robots.txt
+            data = []
+        if len(data) < 2:
+            return []
+        keys, rows = data[0], data[1:]
+        def build_dict(row):
+            new_dict = {}
+            for i, key in enumerate(keys):
+                if key == 'timestamp':
+                    try:
+                        new_dict['datetime'] = datetime.strptime(row[i], self.timestamp_format)
+                    except ValueError:
+                        # this means an error in their date string (it happens)
+                        new_dict['datetime'] = None
+                new_dict[key] = row[i]
+            return new_dict
+        snapshots = list(map(build_dict, rows))
+        del rows
+
+        snapshot_requests = []
+        for snapshot in self.filter_snapshots(snapshots):
+            # update the url to point to the snapshot
+            url = self.snapshot_url_template.format(**snapshot)
+            original_request = meta['original_request']
+            snapshot_request = original_request.replace(url=url)
+
+            # attach extension specify metadata to the request
+            snapshot_request.meta.update({
+                'original_request': original_request,
+                'wayback_machine_url': snapshot_request.url,
+                'wayback_machine_datetime': snapshot['datetime'],
+            })
+
+            snapshot_requests.append(snapshot_request)
+
+        return snapshot_requests
+
+    def filter_snapshots(self, snapshots):
+        filtered_snapshots = []
+        initial_snapshot = None
+        last_digest = None
+        for i, snapshot in enumerate(snapshots):
+            # ignore entries with invalid timestamps
+            if not snapshot['datetime']:
+                continue
+            timestamp = snapshot['datetime'].timestamp()
+
+            # ignore bot detections (e.g status="-")
+            if len(snapshot['statuscode']) != 3:
+                continue
+
+            # also don't download redirects (because the redirected URLs are also present)
+            if snapshot['statuscode'][0] == '3':
+                continue
+
+
+            # include the snapshot active when we first enter the range
+            if len(filtered_snapshots) == 0:
+                if timestamp > self.time_range[0]:
+                    if initial_snapshot:
+                        filtered_snapshots.append(initial_snapshot)
+                        last_digest = initial_snapshot['digest']
+                else:
+                    initial_snapshot = snapshot
+
+            # ignore before the range
+            if timestamp < self.time_range[0]:
+                continue
+
+            # ignore the rest are past the specified time range
+            if timestamp > self.time_range[1]:
+                break
+
+            # don't download unchanged snapshots
+            if last_digest == snapshot['digest']:
+                continue
+            last_digest = snapshot['digest']
+
+            filtered_snapshots.append(snapshot)
+
+        return filtered_snapshots
