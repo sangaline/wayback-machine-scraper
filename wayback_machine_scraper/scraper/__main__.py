@@ -16,7 +16,7 @@ def main():
         'deny': args.deny,
     }
     settings = Settings({
-        'LOG_LEVEL': 'INFO',
+        'LOG_LEVEL': 'DEBUG' if args.verbose else 'INFO',
         'DOWNLOADER_MIDDLEWARES': {
             'wayback_machine_scraper.middleware.WaybackMachine': 5,
         },
@@ -56,6 +56,9 @@ def parse_args():
     ))
     parser.add_argument('-d', '--deny', metavar='REGEX', default=(), help=(
         'A regular expression to exclude matched URLs.'
+    ))
+    parser.add_argument('-v', '--verbose', action='store_true', help=(
+        'Turn on debug logging.'
     ))
 
     return parser.parse_args()
