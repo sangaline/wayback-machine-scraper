@@ -20,6 +20,10 @@ def main():
         'DOWNLOADER_MIDDLEWARES': {
             'wayback_machine_scraper.middleware.WaybackMachine': 5,
         },
+        'AUTOTHROTTLE_ENABLED': True,
+        'AUTOTHROTTLE_DEBUG': args.verbose,
+        'AUTOTHROTTLE_START_DELAY': 1,
+        'AUTOTHROTTLE_TARGET_CONCURRENCY': args.concurrency,
         'WAYBACK_MACHINE_TIME_RANGE': (getattr(args, 'from'), args.to),
     })
 
@@ -56,6 +60,11 @@ def parse_args():
     ))
     parser.add_argument('-d', '--deny', metavar='REGEX', default=(), help=(
         'A regular expression to exclude matched URLs.'
+    ))
+    parser.add_argument('-c', '--concurrency', default=1.0, help=(
+        'Target concurrency for crawl requests.'
+        'The crawl rate will be automatically adjusted to match this target.'
+        'Use values less than 1 to be polite and values higher than 1 to scrape more quickly.'
     ))
     parser.add_argument('-v', '--verbose', action='store_true', help=(
         'Turn on debug logging.'
