@@ -1,2 +1,5 @@
 *.egg-info
 .env
+__pycache__
+*.pyc
+website
