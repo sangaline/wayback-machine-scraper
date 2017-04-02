@@ -11,7 +11,7 @@ def main():
     args = parse_args()
     config = {
         'domains': args.domains,
-        'directory': args.output[0],
+        'directory': args.output,
     }
     settings = Settings({
         'LOG_LEVEL': 'INFO',
@@ -37,7 +37,7 @@ def parse_args():
         'Specify the domain(s) to scrape. '
         'Can also be a full URL to specify starting points for the crawler.'
     ))
-    parser.add_argument('-o', '--output', metavar='DIRECTORY', nargs=1, default='website', help=(
+    parser.add_argument('-o', '--output', metavar='DIRECTORY', default='website', help=(
         'Specify the domain(s) to scrape. '
         'Can also be a full URL to specify starting points for the crawler.'
     ))
