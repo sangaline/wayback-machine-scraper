@@ -18,7 +18,7 @@ def main():
         'DOWNLOADER_MIDDLEWARES': {
             'wayback_machine_scraper.middleware.WaybackMachine': 5,
         },
-        'WAYBACK_MACHINE_TIME_RANGE': (20170101, 20170102),
+        'WAYBACK_MACHINE_TIME_RANGE': (getattr(args, 'from'), args.to),
     })
 
     # start the crawler
@@ -40,6 +40,14 @@ def parse_args():
     parser.add_argument('-o', '--output', metavar='DIRECTORY', default='website', help=(
         'Specify the domain(s) to scrape. '
         'Can also be a full URL to specify starting points for the crawler.'
+    ))
+    parser.add_argument('-f', '--from', metavar='TIMESTAMP', default='10000101', help=(
+        'The timestamp for the beginning of the range to scrape. '
+        'Can either be YYYYmmdd, YYYYmmddHHMMSS, or a Unix timestamp.'
+    ))
+    parser.add_argument('-t', '--to', metavar='TIMESTAMP', default='30000101', help=(
+        'The timestamp for the end of the range to scrape. '
+        'Use the same timestamp as `--from` to specify a single point in time.'
     ))
 
     return parser.parse_args()
