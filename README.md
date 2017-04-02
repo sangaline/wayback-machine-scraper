@@ -20,9 +20,9 @@ The package can be installed using `pip`.
 pip install wayback-machine-scraper
 ```
 
-## Command Line Interface
+## Command-Line Interface
 
-Writing a custom Scrapy spider and using the `WaybackMachine` middleware is the preferred way to use this project, but a command line interface for basic mirroring is also included.
+Writing a custom [Scrapy](https://scrapy.org) spider and using the `WaybackMachine` middleware is the preferred way to use this project, but a command line interface for basic mirroring is also included.
 The usage information can be printed by running `wayback-machine-scraper -h`.
 
 ```
@@ -75,7 +75,7 @@ The usage can be perhaps be made more clear with a couple of concrete examples.
 
 #### A Single Page Over Time
 
-One of the key advantages of `wayback-machine-scraper` over other projects, such as [wayback-machine-downloader](https://github.com/hartator/wayback-machine-downloader), is that it offers the capability to download all available archive.org snapshots.
+One of the key advantages of `wayback-machine-scraper` over other projects, such as [wayback-machine-downloader](https://github.com/hartator/wayback-machine-downloader), is that it offers the capability to download all available [archive.org](https://archive.org) snapshots.
 This can be extremely useful if you're interested in analyzing how pages change over time.
 
 For example, say that you would like to analyze many snapshots of the [Hacker News](news.ycombinator.com) front page as I did writing [Reverse Engineering the Hacker News Algorithm](http://sangaline.com/post/reverse-engineering-the-hacker-news-ranking-algorithm/).
@@ -155,7 +155,7 @@ with a single snapshot for each page in the crawl as it appeared on June 23, 200
 
 ## Scrapy Middleware
 
-The package also provides Scrapy downloader middleware that can be used to build a custom scraper for archived copies on [archive.org](http://archive.org).
+The package also provides [Scrapy](https://scrapy.org) downloader middleware that can be used to build a custom scraper for archived copies on [archive.org](http://archive.org).
 The provided middleware is very unobtrusive and should require little or no modification of existing scrapers.
 To enable the middleware you simply have to add
 
@@ -167,7 +167,7 @@ DOWNLOADER_MIDDLEWARES = {
 WAYBACK_MACHINE_TIME_RANGE = (start_time, end_time)
 ```
 
-to your Scrapy settings.
+to your [Scrapy](https://scrapy.org) settings.
 The start and end times can be specified as `datetime.datetime` objects, Unix timestamps, `YYYYmmdd` timestamps, or `YYYYmmddHHMMSS` timestamps.
 The type will be automatically inferred from the content and the ranges have the same effect that they do in the CLI.
 After configuration, responses will be passed to your spiders as they normally would.
