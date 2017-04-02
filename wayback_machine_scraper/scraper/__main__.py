@@ -62,10 +62,10 @@ def parse_args():
     parser.add_argument('-d', '--deny', metavar='REGEX', default=(), help=(
         'A regular expression to exclude matched URLs.'
     ))
-    parser.add_argument('-c', '--concurrency', default=1.0, help=(
+    parser.add_argument('-c', '--concurrency', default=10.0, help=(
         'Target concurrency for crawl requests.'
         'The crawl rate will be automatically adjusted to match this target.'
-        'Use values less than 1 to be polite and values higher than 1 to scrape more quickly.'
+        'Use values less than 1 to be polite and higher values to scrape more quickly.'
     ))
     parser.add_argument('-u', '--unix', action='store_true', help=(
         'Save snapshots as `UNIX_TIMESTAMP.snapshot` instead of '
