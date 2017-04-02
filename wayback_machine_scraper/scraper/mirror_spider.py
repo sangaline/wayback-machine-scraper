@@ -31,6 +31,14 @@ class MirrorSpider(CrawlSpider):
 
         super().__init__()
 
+    def parse_start_url(self, response):
+        # scrapy doesn't call the callbacks for the start urls by default,
+        # this overrides that behavior so that any matching callbacks are called
+        for rule in self._rules:
+            if rule.link_extractor._link_allowed(response):
+                if rule.callback:
+                    rule.callback(response)
+
     def save_page(self, response):
         # ignore 404s
         if response.status == 404:
