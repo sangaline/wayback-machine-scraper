@@ -14,6 +14,7 @@ def main():
         'directory': args.output,
         'allow': args.allow,
         'deny': args.deny,
+        'unix': args.unix,
     }
     settings = Settings({
         'LOG_LEVEL': 'DEBUG' if args.verbose else 'INFO',
@@ -65,6 +66,10 @@ def parse_args():
         'Target concurrency for crawl requests.'
         'The crawl rate will be automatically adjusted to match this target.'
         'Use values less than 1 to be polite and values higher than 1 to scrape more quickly.'
+    ))
+    parser.add_argument('-u', '--unix', action='store_true', help=(
+        'Save snapshots as `UNIX_TIMESTAMP.snapshot` instead of '
+        'the default `YYYYmmddHHMMSS.snapshot`.'
     ))
     parser.add_argument('-v', '--verbose', action='store_true', help=(
         'Turn on debug logging.'
