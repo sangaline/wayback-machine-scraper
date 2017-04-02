@@ -26,8 +26,10 @@ def main():
     process.crawl(MirrorSpider, **config)
     process.start()
 
+
 def parse_args():
-    parser = argparse.ArgumentParser(description=(
+    formatter = argparse.ArgumentDefaultsHelpFormatter
+    parser = argparse.ArgumentParser(formatter_class=formatter, description=(
         'Mirror all Wayback Machine snapshots of one or more domains '
         'within a specified time range.'
     ))
