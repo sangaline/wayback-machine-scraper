@@ -12,6 +12,8 @@ def main():
     config = {
         'domains': args.domains,
         'directory': args.output,
+        'allow': args.allow,
+        'deny': args.deny,
     }
     settings = Settings({
         'LOG_LEVEL': 'INFO',
@@ -48,6 +50,12 @@ def parse_args():
     parser.add_argument('-t', '--to', metavar='TIMESTAMP', default='30000101', help=(
         'The timestamp for the end of the range to scrape. '
         'Use the same timestamp as `--from` to specify a single point in time.'
+    ))
+    parser.add_argument('-a', '--allow', metavar='REGEX', default=(), help=(
+        'A regular expression that all scraped URLs must match.'
+    ))
+    parser.add_argument('-d', '--deny', metavar='REGEX', default=(), help=(
+        'A regular expression to exclude matched URLs.'
     ))
 
     return parser.parse_args()
