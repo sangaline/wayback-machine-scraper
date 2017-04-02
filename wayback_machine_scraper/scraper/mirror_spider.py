@@ -10,14 +10,24 @@ class MirrorSpider(CrawlSpider):
     name = 'mirror_spider'
     handle_httpstatus_list = [404]
 
-    def __init__(self, domain, directory, allow=(), deny=(), unix=False):
+    def __init__(self, domains, directory, allow=(), deny=(), unix=False):
         self.directory = directory
         self.unix = unix
         self.rules = (
             Rule(LinkExtractor(allow=allow, deny=deny), callback='save_page'),
         )
-        self.allowed_domains = [domain]
-        self.start_urls = [f'http://{domain}']
+
+        # parse the allowed domains and start urls
+        self.allowed_domains = []
+        self.start_urls = []
+        for domain in domains:
+            url_parts = domain.split('://')
+            unqualified_url = url_parts[-1]
+            url_scheme = url_parts[0] if len(url_parts) > 1 else 'http'
+            full_url = f'{url_scheme}://{unqualified_url}'
+            bare_domain = unqualified_url.split('/')[0]
+            self.allowed_domains.append(bare_domain)
+            self.start_urls.append(full_url)
 
         super().__init__()
 
