@@ -71,8 +71,7 @@ class WaybackMachine:
 
             # treat empty listings as 404s
             if len(snapshot_requests) < 1:
-                return Response(meta['original_request'].url, status=404)
-
+                return Response(meta['wayback_machine_original_request'].url, status=404)
 
             # schedule all of the snapshots
             for snapshot_request in snapshot_requests:
@@ -83,14 +82,14 @@ class WaybackMachine:
 
         # clean up snapshot responses
         if meta.get('wayback_machine_url'):
-            return response.replace(url=meta['original_request'].url)
+            return response.replace(url=meta['wayback_machine_original_request'].url)
 
         return response
 
     def build_cdx_request(self, request):
         cdx_url = self.cdx_url_template.format(url=pathname2url(request.url))
         cdx_request = Request(cdx_url)
-        cdx_request.meta['original_request'] = request
+        cdx_request.meta['wayback_machine_original_request'] = request
         cdx_request.meta['wayback_machine_cdx_request'] = True
         return cdx_request
 
@@ -124,12 +123,12 @@ class WaybackMachine:
         for snapshot in self.filter_snapshots(snapshots):
             # update the url to point to the snapshot
             url = self.snapshot_url_template.format(**snapshot)
-            original_request = meta['original_request']
+            original_request = meta['wayback_machine_original_request']
             snapshot_request = original_request.replace(url=url)
 
             # attach extension specify metadata to the request
             snapshot_request.meta.update({
-                'original_request': original_request,
+                'wayback_machine_original_request': original_request,
                 'wayback_machine_url': snapshot_request.url,
                 'wayback_machine_time': snapshot['datetime'],
             })
