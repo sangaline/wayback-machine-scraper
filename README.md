@@ -174,11 +174,11 @@ After configuration, responses will be passed to your spiders as they normally w
 Both `response.url` and all links within `response.body` point to the unarchived content so your parsing code should work the same regardless of whether or not the middleware is enabled.
 
 If you need to access either the time of the snapshot or the [archive.org](http://archive.org) URL for a response then this information is easily available as metadata attached to the response.
-Namely, `response.meta['wayback_machine_datetime']` contains a `datetime.datetime` corresponding to the time of the crawl and `response.meta['wayback_machine_url']` contains the actual URL that was requested.
+Namely, `response.meta['wayback_machine_time']` contains a `datetime.datetime` corresponding to the time of the crawl and `response.meta['wayback_machine_url']` contains the actual URL that was requested.
 Unless you're scraping a single point in time, you will almost certainly want to include the timestamp in the items that your spiders produce to differentiate items scraped from the same URL.
 
 ### Examples
 
 The `wayback-machine-scraper` command-line utility is itself an example of how to use the middleware.
 The necessary settings are defined in [\_\_main\_\_.py](wayback_machine_scraper/scraper/__main__.py) and the handling of responses is done in [mirror_spider.py](wayback_machine_scraper/scraper/mirror_spider.py).
-The `MirrorSpider` class simply uses the `response.meta['wayback_machine_datetime']` information attached to each response to construct the snapshot filenames and is otherwise a fairly generic spider.
+The `MirrorSpider` class simply uses the `response.meta['wayback_machine_time']` information attached to each response to construct the snapshot filenames and is otherwise a fairly generic spider.

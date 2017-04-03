@@ -131,7 +131,7 @@ class WaybackMachine:
             snapshot_request.meta.update({
                 'original_request': original_request,
                 'wayback_machine_url': snapshot_request.url,
-                'wayback_machine_datetime': snapshot['datetime'],
+                'wayback_machine_time': snapshot['datetime'],
             })
 
             snapshot_requests.append(snapshot_request)

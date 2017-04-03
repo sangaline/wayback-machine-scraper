@@ -50,7 +50,7 @@ class MirrorSpider(CrawlSpider):
         os.makedirs(parent_directory, exist_ok=True)
 
         # construct the output filename
-        time = response.meta['wayback_machine_datetime']
+        time = response.meta['wayback_machine_time']
         if self.unix:
             filename = f'{time.timestamp()}.snapshot'
         else:
