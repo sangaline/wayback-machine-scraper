@@ -10,7 +10,7 @@ long_description = description + \
 
 setup(
     name='wayback-machine-scraper',
-    version='1.0.3',
+    version='1.0.4',
     author='Evan Sangaline',
     author_email='evan@intoli.com',
     description=description,

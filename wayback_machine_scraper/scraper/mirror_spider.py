@@ -24,7 +24,7 @@ class MirrorSpider(CrawlSpider):
             url_parts = domain.split('://')
             unqualified_url = url_parts[-1]
             url_scheme = url_parts[0] if len(url_parts) > 1 else 'http'
-            full_url = f'{url_scheme}://{unqualified_url}'
+            full_url = '{0}://{1}'.format(url_scheme, unqualified_url)
             bare_domain = unqualified_url.split('/')[0]
             self.allowed_domains.append(bare_domain)
             self.start_urls.append(full_url)
@@ -52,9 +52,9 @@ class MirrorSpider(CrawlSpider):
         # construct the output filename
         time = response.meta['wayback_machine_time']
         if self.unix:
-            filename = f'{time.timestamp()}.snapshot'
+            filename = '{0}.snapshot'.format(time.timestamp())
         else:
-            filename = f'{time.strftime(WaybackMachine.timestamp_format)}.snapshot'
+            filename = '{0}.snapshot'.format(time.strftime(WaybackMachine.timestamp_format))
         full_path = os.path.join(parent_directory, filename)
 
         # write out the file
