@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from urllib.request import pathname2url
 
 from scrapy import Request
@@ -40,6 +40,7 @@ class WaybackMachine:
                 # otherwise archive.org timestamp format (possibly truncated)
                 time_string = str(time)[::-1].zfill(14)[::-1]
                 time = datetime.strptime(time_string, self.timestamp_format)
+                time = time.replace(tzinfo=timezone.utc)
             return time.timestamp()
 
         self.time_range = [parse_time(time) for time in time_range]
@@ -110,7 +111,8 @@ class WaybackMachine:
             for i, key in enumerate(keys):
                 if key == 'timestamp':
                     try:
-                        new_dict['datetime'] = datetime.strptime(row[i], self.timestamp_format)
+                        time = datetime.strptime(row[i], self.timestamp_format)
+                        new_dict['datetime'] = time.replace(tzinfo=timezone.utc)
                     except ValueError:
                         # this means an error in their date string (it happens)
                         new_dict['datetime'] = None
