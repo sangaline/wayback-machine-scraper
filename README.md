@@ -1,4 +1,6 @@
-# Wayback Machine Scraper/Scrapy Middleware
+![The Wayback Machine Scraper Logo](img/logo.png)
+
+# The Wayback Machine Scraper and Scrapy Middleware
 
 This project consists of two tools that can be used to scrape or download website data as it appears in [archive.org](http://archive.org)'s [Wayback Machine](https://archive.org/web/).
 This can be useful if you're trying to scrape a site that has scraping measures that make direct scraping impossible or prohibitively slow.
