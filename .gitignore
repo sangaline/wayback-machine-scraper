@@ -3,3 +3,6 @@
 __pycache__
 *.pyc
 website
+dist
+build
+upload.sh
