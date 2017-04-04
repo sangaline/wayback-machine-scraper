@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import find_packages, setup
 
 description = ('A CLI and Scrapy middleware for scraping '
                'Wayback Machine snapshots from archive.org.')
@@ -10,14 +10,14 @@ long_description = description + \
 
 setup(
     name='wayback-machine-scraper',
-    version='1.0.0',
+    version='1.0.3',
     author='Evan Sangaline',
     author_email='evan@intoli.com',
     description=description,
     license='ISC',
     keywords='archive.org scrapy scraper waybackmachine',
     url="https://github.com/sangaline/wayback-machine-scraper",
-    packages=['wayback_machine_scraper'],
+    packages=find_packages(),
     entry_points={
         'console_scripts': [
             'wayback-machine-scraper = wayback_machine_scraper.scraper.__main__:main',
