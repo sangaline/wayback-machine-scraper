@@ -2,7 +2,7 @@
 
 # The Wayback Machine Scraper and Scrapy Middleware
 
-This project consists of two tools that can be used to scrape or download website data as it appears in [archive.org](http://archive.org)'s [Wayback Machine](https://archive.org/web/).
+This project consists of a command-line utility `wayback-machine-scraper` that can be used to scrape or download website data as it appears in [archive.org](http://archive.org)'s [Wayback Machine](https://archive.org/web/).
 This can be useful if you're trying to scrape a site that has scraping measures that make direct scraping impossible or prohibitively slow.
 It's also useful if you want to scrape a website as it appeared at some point in the past or to scrape information that changes over time.
 
@@ -10,9 +10,9 @@ If your needs are relatively simple then the included `wayback-machine-scraper` 
 It crawls through historical snapshots of a website and saves the snapshots to disk.
 It's highly configurable in terms of what it scrapes but it only saves the unparsed content of the pages on the site.
 
-If you're interested in parsing data from the pages that are crawled then you might want to use the provided `WaybackMachine` [Scrapy](https://scrapy.org) middleware instead.
-This middleware handles all of the tricky parts and passes normal `response` objects to your [Scrapy](https://scrapy.org) spiders with archive timestamp information attached.
-The `WaybackMachine` middleware is very unobtrusive and should work seamlessly with existing [Scrapy](https://scrapy.org) middlewares, extensions, and spiders.
+If you're interested in parsing data from the pages that are crawled then you might want to check out [scrapy-wayback-machine](https://github.com/sangaline/scrapy-wayback-machine) instead.
+It's a downloader middleware that handles all of the tricky parts and passes normal `response` objects to your [Scrapy](https://scrapy.org) spiders with archive timestamp information attached.
+The middleware is very unobtrusive and should work seamlessly with existing [Scrapy](https://scrapy.org) middlewares, extensions, and spiders.
 
 ## Installation
 
@@ -71,11 +71,11 @@ optional arguments:
   -v, --verbose         Turn on debug logging. (default: False)
 ```
 
-### Examples
+## Examples
 
 The usage can be perhaps be made more clear with a couple of concrete examples.
 
-#### A Single Page Over Time
+### A Single Page Over Time
 
 One of the key advantages of `wayback-machine-scraper` over other projects, such as [wayback-machine-downloader](https://github.com/hartator/wayback-machine-downloader), is that it offers the capability to download all available [archive.org](https://archive.org) snapshots.
 This can be extremely useful if you're interested in analyzing how pages change over time.
@@ -128,7 +128,7 @@ website/
         └── 20170320205604.snapshot
 ```
 
-#### A Full Site Crawl at One Point In Time
+### A Full Site Crawl at One Point In Time
 
 If the goal is to take a snapshot of an entire site at once then this can also be easily achieved.
 Specifying both the `--from` and `--to` options as the same point in time will assure that only one snapshot is saved for each URL.
@@ -154,33 +154,3 @@ website
 ```
 
 with a single snapshot for each page in the crawl as it appeared on June 23, 2008.
-
-## Scrapy Middleware
-
-The package also provides [Scrapy](https://scrapy.org) downloader middleware that can be used to build a custom scraper for archived copies on [archive.org](http://archive.org).
-The provided middleware is very unobtrusive and should require little or no modification of existing scrapers.
-To enable the middleware you simply have to add
-
-```python
-DOWNLOADER_MIDDLEWARES = {
-    'wayback_machine_scraper.middleware.WaybackMachine': 5,
-}
-
-WAYBACK_MACHINE_TIME_RANGE = (start_time, end_time)
-```
-
-to your [Scrapy](https://scrapy.org) settings.
-The start and end times can be specified as `datetime.datetime` objects, Unix timestamps, `YYYYmmdd` timestamps, or `YYYYmmddHHMMSS` timestamps.
-The type will be automatically inferred from the content and the ranges have the same effect that they do in the CLI.
-After configuration, responses will be passed to your spiders as they normally would.
-Both `response.url` and all links within `response.body` point to the unarchived content so your parsing code should work the same regardless of whether or not the middleware is enabled.
-
-If you need to access either the time of the snapshot or the [archive.org](http://archive.org) URL for a response then this information is easily available as metadata attached to the response.
-Namely, `response.meta['wayback_machine_time']` contains a `datetime.datetime` corresponding to the time of the crawl and `response.meta['wayback_machine_url']` contains the actual URL that was requested.
-Unless you're scraping a single point in time, you will almost certainly want to include the timestamp in the items that your spiders produce to differentiate items scraped from the same URL.
-
-### Examples
-
-The `wayback-machine-scraper` command-line utility is itself an example of how to use the middleware.
-The necessary settings are defined in [\_\_main\_\_.py](wayback_machine_scraper/scraper/__main__.py) and the handling of responses is done in [mirror_spider.py](wayback_machine_scraper/scraper/mirror_spider.py).
-The `MirrorSpider` class simply uses the `response.meta['wayback_machine_time']` information attached to each response to construct the snapshot filenames and is otherwise a fairly generic spider.
