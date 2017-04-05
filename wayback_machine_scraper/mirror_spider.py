@@ -4,7 +4,7 @@ from datetime import datetime
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 
-from wayback_machine_scraper.middleware import WaybackMachine
+from scrapy_wayback_machine.middleware import WaybackMachineScraper
 
 class MirrorSpider(CrawlSpider):
     name = 'mirror_spider'
@@ -54,7 +54,7 @@ class MirrorSpider(CrawlSpider):
         if self.unix:
             filename = '{0}.snapshot'.format(time.timestamp())
         else:
-            filename = '{0}.snapshot'.format(time.strftime(WaybackMachine.timestamp_format))
+            filename = '{0}.snapshot'.format(time.strftime(WaybackMachineScraper.timestamp_format))
         full_path = os.path.join(parent_directory, filename)
 
         # write out the file

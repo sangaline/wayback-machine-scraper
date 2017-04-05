@@ -19,7 +19,7 @@ def main():
     settings = Settings({
         'LOG_LEVEL': 'DEBUG' if args.verbose else 'INFO',
         'DOWNLOADER_MIDDLEWARES': {
-            'wayback_machine_scraper.middleware.WaybackMachine': 5,
+            'scrapy_wayback_machine.WaybackMachineMiddleware': 5,
         },
         'AUTOTHROTTLE_ENABLED': True,
         'AUTOTHROTTLE_DEBUG': args.verbose,

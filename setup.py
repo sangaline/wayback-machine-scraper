@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-description = ('A CLI and Scrapy middleware for scraping '
+description = ('A command-line utility for scraping '
                'Wayback Machine snapshots from archive.org.')
 long_description = description + \
         (' For further details, '
@@ -20,7 +20,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'wayback-machine-scraper = wayback_machine_scraper.scraper.__main__:main',
+            'wayback-machine-scraper = wayback_machine_scraper.__main__:main',
         ],
     },
     long_description=long_description,
@@ -33,6 +33,7 @@ setup(
     install_requires=[
         'cryptography',
         'scrapy',
+        'scrapy-wayback-machine',
         'twisted',
     ]
 )
