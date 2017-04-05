@@ -1,18 +1,17 @@
 ![The Wayback Machine Scraper Logo](img/logo.png)
 
-# The Wayback Machine Scraper and Scrapy Middleware
+# The Wayback Machine Scraper
 
-This project consists of a command-line utility `wayback-machine-scraper` that can be used to scrape or download website data as it appears in [archive.org](http://archive.org)'s [Wayback Machine](https://archive.org/web/).
-This can be useful if you're trying to scrape a site that has scraping measures that make direct scraping impossible or prohibitively slow.
+The repository consists of a command-line utility `wayback-machine-scraper` that can be used to scrape or download website data as it appears in [archive.org](http://archive.org)'s [Wayback Machine](https://archive.org/web/).
+It crawls through historical snapshots of a website and saves the snapshots to disk.
+This can be useful when you're trying to scrape a site that has scraping measures that make direct scraping impossible or prohibitively slow.
 It's also useful if you want to scrape a website as it appeared at some point in the past or to scrape information that changes over time.
 
-If your needs are relatively simple then the included `wayback-machine-scraper` command-line utility may be all that you need.
-It crawls through historical snapshots of a website and saves the snapshots to disk.
-It's highly configurable in terms of what it scrapes but it only saves the unparsed content of the pages on the site.
-
+The command-line utility is highly configurable in terms of what it scrapes but it only saves the unparsed content of the pages on the site.
 If you're interested in parsing data from the pages that are crawled then you might want to check out [scrapy-wayback-machine](https://github.com/sangaline/scrapy-wayback-machine) instead.
 It's a downloader middleware that handles all of the tricky parts and passes normal `response` objects to your [Scrapy](https://scrapy.org) spiders with archive timestamp information attached.
 The middleware is very unobtrusive and should work seamlessly with existing [Scrapy](https://scrapy.org) middlewares, extensions, and spiders.
+It's what `wayback-machine-scraper` uses behind the scenes and it offers more flexibility for advanced use cases.
 
 ## Installation
 
