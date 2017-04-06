@@ -1,4 +1,5 @@
 import argparse
+from pkg_resources import get_distribution
 
 from scrapy.crawler import CrawlerProcess
 from scrapy.settings import Settings
@@ -17,6 +18,10 @@ def main():
         'unix': args.unix,
     }
     settings = Settings({
+        'USER_AGENT': (
+            'Wayback Machine Scraper/{0} '
+            '(+https://github.com/sangaline/scrapy-wayback-machine)'
+        ).format(get_distribution('wayback-machine-scraper').version),
         'LOG_LEVEL': 'DEBUG' if args.verbose else 'INFO',
         'DOWNLOADER_MIDDLEWARES': {
             'scrapy_wayback_machine.WaybackMachineMiddleware': 5,
