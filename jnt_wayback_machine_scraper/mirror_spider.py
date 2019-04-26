@@ -6,6 +6,7 @@ from scrapy.linkextractors import LinkExtractor
 
 from scrapy_wayback_machine import WaybackMachineMiddleware
 
+
 class MirrorSpider(CrawlSpider):
     name = 'mirror_spider'
     handle_httpstatus_list = [404]
@@ -44,9 +45,13 @@ class MirrorSpider(CrawlSpider):
         if response.status == 404:
             return
 
+        print(">>>>>> " + response.url)
+
         # make the parent directory
         url_parts = response.url.split('://')[1].split('/')
         parent_directory = os.path.join(self.directory, *url_parts)
+        urls_path = os.path.join(self.directory, "urls.txt")
+        print("@@@" + urls_path)
         os.makedirs(parent_directory, exist_ok=True)
 
         # construct the output filename
@@ -56,6 +61,11 @@ class MirrorSpider(CrawlSpider):
         else:
             filename = '{0}.snapshot'.format(time.strftime(WaybackMachineMiddleware.timestamp_format))
         full_path = os.path.join(parent_directory, filename)
+
+        # write out the file
+        with open(urls_path, 'a') as f:
+            f.write(response.url+os.linesep)
+            f.close()
 
         # write out the file
         with open(full_path, 'wb') as f:

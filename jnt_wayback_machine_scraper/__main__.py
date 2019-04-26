@@ -21,7 +21,7 @@ def main():
         'USER_AGENT': (
             'Wayback Machine Scraper/{0} '
             '(+https://github.com/sangaline/scrapy-wayback-machine)'
-        ).format(get_distribution('wayback-machine-scraper').version),
+        ).format(get_distribution('jnt-wayback-machine-scraper').version),
         'LOG_LEVEL': 'DEBUG' if args.verbose else 'INFO',
         'DOWNLOADER_MIDDLEWARES': {
             'scrapy_wayback_machine.WaybackMachineMiddleware': 5,
@@ -81,3 +81,7 @@ def parse_args():
     ))
 
     return parser.parse_args()
+
+
+if __name__ == "__main__":
+    main()

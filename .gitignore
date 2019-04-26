@@ -6,3 +6,4 @@ website
 dist
 build
 upload.sh
+.idea

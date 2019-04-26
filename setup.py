@@ -5,22 +5,22 @@ description = ('A command-line utility for scraping '
 long_description = description + \
         (' For further details, '
          'please see the code repository on github: '
-         'https://github.com/sangaline/wayback-machine-scraper')
+         'https://github.com/Junte/jnt-wayback-machine-scraper')
 
 
 setup(
-    name='wayback-machine-scraper',
-    version='1.0.7',
-    author='Evan Sangaline',
-    author_email='evan@intoli.com',
+    name='jnt-wayback-machine-scraper',
+    version='1.0.8.3',
+    author='Vitaly Velikodny',
+    author_email='tech@junte.com',
     description=description,
     license='ISC',
     keywords='archive.org scrapy scraper waybackmachine',
-    url="https://github.com/sangaline/wayback-machine-scraper",
+    url="https://github.com/Junte/jnt-wayback-machine-scraper",
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'wayback-machine-scraper = wayback_machine_scraper.__main__:main',
+            'jnt-wayback-machine-scraper = jnt_wayback_machine_scraper.__main__:main',
         ],
     },
     long_description=long_description,
