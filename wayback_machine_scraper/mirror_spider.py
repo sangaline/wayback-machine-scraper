@@ -1,10 +1,16 @@
 import os
 from datetime import datetime
 
+try:
+    from urllib.parse import quote_plus
+except ImportError:
+    from urllib import quote_plus
+
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 
 from scrapy_wayback_machine import WaybackMachineMiddleware
+
 
 class MirrorSpider(CrawlSpider):
     name = 'mirror_spider'
@@ -46,6 +52,8 @@ class MirrorSpider(CrawlSpider):
 
         # make the parent directory
         url_parts = response.url.split('://')[1].split('/')
+        if os.name == 'nt':
+            url_parts = [quote_plus(url_part) for url_part in url_parts]
         parent_directory = os.path.join(self.directory, *url_parts)
         os.makedirs(parent_directory, exist_ok=True)
 
