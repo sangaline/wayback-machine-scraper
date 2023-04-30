@@ -73,8 +73,8 @@ def parse_args():
         'Use values less than 1 to be polite and higher values to scrape more quickly.'
     ))
     parser.add_argument('-u', '--unix', action='store_true', help=(
-        'Save snapshots as `UNIX_TIMESTAMP.snapshot` instead of '
-        'the default `YYYYmmddHHMMSS.snapshot`.'
+        'Save snapshots as `UNIX_TIMESTAMP.html` instead of '
+        'the default `YYYYmmddHHMMSS.html`.'
     ))
     parser.add_argument('-v', '--verbose', action='store_true', help=(
         'Turn on debug logging.'
