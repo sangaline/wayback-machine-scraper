@@ -50,8 +50,7 @@ def parse_args():
         'Can also be a full URL to specify starting points for the crawler.'
     ))
     parser.add_argument('-o', '--output', metavar='DIRECTORY', default='website', help=(
-        'Specify the domain(s) to scrape. '
-        'Can also be a full URL to specify starting points for the crawler.'
+        'Directory to save scraped files to.'
     ))
     parser.add_argument('-f', '--from', metavar='TIMESTAMP', default='10000101', help=(
         'The timestamp for the beginning of the range to scrape. '
@@ -73,8 +72,8 @@ def parse_args():
         'Use values less than 1 to be polite and higher values to scrape more quickly.'
     ))
     parser.add_argument('-u', '--unix', action='store_true', help=(
-        'Save snapshots as `UNIX_TIMESTAMP.snapshot` instead of '
-        'the default `YYYYmmddHHMMSS.snapshot`.'
+        'Save snapshots as `UNIX_TIMESTAMP.html` instead of '
+        'the default `YYYYmmddHHMMSS.html`.'
     ))
     parser.add_argument('-v', '--verbose', action='store_true', help=(
         'Turn on debug logging.'

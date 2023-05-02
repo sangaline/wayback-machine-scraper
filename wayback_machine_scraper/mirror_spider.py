@@ -60,9 +60,9 @@ class MirrorSpider(CrawlSpider):
         # construct the output filename
         time = response.meta['wayback_machine_time']
         if self.unix:
-            filename = '{0}.snapshot'.format(time.timestamp())
+            filename = '{0}.html'.format(time.timestamp())
         else:
-            filename = '{0}.snapshot'.format(time.strftime(WaybackMachineMiddleware.timestamp_format))
+            filename = '{0}.html'.format(time.strftime(WaybackMachineMiddleware.timestamp_format))
         full_path = os.path.join(parent_directory, filename)
 
         # write out the file

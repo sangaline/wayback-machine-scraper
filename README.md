@@ -64,8 +64,8 @@ optional arguments:
                         will be automatically adjusted to match this
                         target.Use values less than 1 to be polite and higher
                         values to scrape more quickly. (default: 10.0)
-  -u, --unix            Save snapshots as `UNIX_TIMESTAMP.snapshot` instead of
-                        the default `YYYYmmddHHMMSS.snapshot`. (default:
+  -u, --unix            Save snapshots as `UNIX_TIMESTAMP\.html` instead of
+                        the default `YYYYmmddHHMMSS\.html`. (default:
                         False)
   -v, --verbose         Turn on debug logging. (default: False)
 ```
@@ -92,15 +92,15 @@ This produces a file structure of
 ```
 website/
 └── news.ycombinator.com
-    ├── 20070221033032.snapshot
-    ├── 20070226001637.snapshot
-    ├── 20070405032412.snapshot
-    ├── 20070405175109.snapshot
-    ├── 20070406195336.snapshot
-    ├── 20070601184317.snapshot
-    ├── 20070629033202.snapshot
-    ├── 20070630222527.snapshot
-    ├── 20070630222818.snapshot
+    ├── 20070221033032\.html
+    ├── 20070226001637\.html
+    ├── 20070405032412\.html
+    ├── 20070405175109\.html
+    ├── 20070406195336\.html
+    ├── 20070601184317\.html
+    ├── 20070629033202\.html
+    ├── 20070630222527\.html
+    ├── 20070630222818\.html
     └── etc.
 ```
 
@@ -120,11 +120,11 @@ which produces
 website/
 └── news.ycombinator.com
     └── item?id=13857086
-        ├── 20170313225853.snapshot
-        ├── 20170313231755.snapshot
-        ├── 20170314043150.snapshot
-        ├── 20170314165633.snapshot
-        └── 20170320205604.snapshot
+        ├── 20170313225853\.html
+        ├── 20170313231755\.html
+        ├── 20170314043150\.html
+        ├── 20170314165633\.html
+        └── 20170320205604\.html
 ```
 
 ### A Full Site Crawl at One Point In Time
@@ -142,13 +142,13 @@ produces a file structure of
 ```
 website
 └── news.ycombinator.com
-    ├── 20080621143814.snapshot
+    ├── 20080621143814\.html
     ├── item?id=221868
-    │   └── 20080622151531.snapshot
+    │   └── 20080622151531\.html
     ├── item?id=222157
-    │   └── 20080622151822.snapshot
+    │   └── 20080622151822\.html
     ├── item?id=222341
-    │   └── 20080620221102.snapshot
+    │   └── 20080620221102\.html
     └── etc.
 ```
 
