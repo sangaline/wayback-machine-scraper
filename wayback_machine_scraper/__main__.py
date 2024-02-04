@@ -1,10 +1,10 @@
 import argparse
-from pkg_resources import get_distribution
+from importlib_metadata import distribution
 
 from scrapy.crawler import CrawlerProcess
 from scrapy.settings import Settings
 
-from .mirror_spider import MirrorSpider
+from mirror_spider import MirrorSpider
 
 
 def main():
@@ -21,7 +21,7 @@ def main():
         'USER_AGENT': (
             'Wayback Machine Scraper/{0} '
             '(+https://github.com/sangaline/scrapy-wayback-machine)'
-        ).format(get_distribution('wayback-machine-scraper').version),
+        ).format(distribution('wayback-machine-scraper').version),
         'LOG_LEVEL': 'DEBUG' if args.verbose else 'INFO',
         'DOWNLOADER_MIDDLEWARES': {
             'scrapy_wayback_machine.WaybackMachineMiddleware': 5,
